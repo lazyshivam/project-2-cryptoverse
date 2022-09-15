@@ -13,6 +13,9 @@ import "./App.css";
 
 const App = () => {
   return (
+   
+      
+   
     <div className="app">
       <div className="navbar">
         <Navbar />
@@ -33,9 +36,10 @@ const App = () => {
 
               <Route
                 exact
-                path="/crypto/:coindId"
-                element={<CryptoDetails />}
+                path="/crypto/:coinId"
+                element={<CryptoDetails/>}
               />
+                 
 
               <Route exact path="/news" element={<News />} />
             </Routes>
@@ -55,6 +59,7 @@ const App = () => {
         </div>
       </div>
     </div>
+   
   );
 };
 
