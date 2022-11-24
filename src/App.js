@@ -10,6 +10,7 @@ import {
   News,
 } from "./components";
 import "./App.css";
+import { BoldOutlined } from "@ant-design/icons";
 
 const App = () => {
   return (
@@ -48,7 +49,8 @@ const App = () => {
         <div className="footer">
            <Typography.Title level={5} style={{color:'white ',textAlign:'center'}}>
             Cryptoverse <br />
-            All rights reserverd.
+            All rights reserverd. <br/>
+             <span style={{fontWeight:100}}> Created by Shivam Goswami.</span>
             </Typography.Title> 
             <Space>
                 <Link to="/">Home</Link>
