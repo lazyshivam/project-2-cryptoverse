@@ -10,7 +10,7 @@ import {
   News,
 } from "./components";
 import "./App.css";
-import { BoldOutlined } from "@ant-design/icons";
+
 
 const App = () => {
   return (
