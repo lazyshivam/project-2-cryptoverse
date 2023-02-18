@@ -13,11 +13,13 @@ const News = ({ simplified }) => {
   const [newsCategory, setNewsCategory] = useState("Cryptocurrency");
   const { data: cryptoNews } = useGetCryptoNewsQuery({
     newsCategory,
-    count: simplified ? 10 : 30,
+    pageSize: simplified ? 10 : 30,
   });
   const { data } = useGetCryptosQuery(100);
-  if (!cryptoNews?.value) return <Loader/>;
-  // console.log(cryptoNews);
+  console.log(data?.data?.coins);
+  console.log(cryptoNews?.articles);
+  if (!cryptoNews) return <Loader />;
+
   const demoImage = "https://img.freepik.com/free-photo/stock-market-chart-virtual-screen-with-woman-s-hand-digital-remix_53876-124663.jpg?w=1060&t=st=1663143751~exp=1663144351~hmac=f3c6bd2464f4998e3e17e3a058d3721d45e5a3cfd9f22c0ed448218f184fd516";
   return (
     <>
@@ -42,18 +44,18 @@ const News = ({ simplified }) => {
           </Col>
         )}
 
-        {cryptoNews.value.map((news, i) => (
+        {cryptoNews?.articles.map((news, i) => (
           <Col xs={24} sm={12} lg={8} key={i}>
             <Card hoverable className="news-card">
               <a href={news.url} target="_blank" rel="noreferrer">
                 <div className="news-image-container">
                   <Title className="news-title" level={4}>
-                    {news.name}
+                    {news.title}
                   </Title>
                   <img
-                    src={news?.image?.thumbnail?.contentUrl || demoImage}
+                    src={news.urlToImage || demoImage}
                     alt="News"
-                    style={{ maxWidth: "150px", maxHeight: "120px" ,borderRadius:"10px"}}
+                    style={{ maxWidth: "150px", maxHeight: "120px", borderRadius: "10px" }}
                   />
                 </div>
                 <p>
@@ -65,17 +67,18 @@ const News = ({ simplified }) => {
                   <div>
                     <Avatar
                       src={
-                        news.provider[0]?.image?.thumbnail?.contentUrl ||
+                        // news.provider[0]?.image?.thumbnail?.contentUrl ||
                         demoImage
                       }
                       alt="image"
                     />
                     <Text className="provider-name">
-                      {news.provider[0]?.name}
+                      {news.source.name}
                     </Text>
                   </div>
                   <Text>
-                    {moment(news.datePublished).startOf("ss").fromNow()}
+                    {moment(news.publishedAt
+                    ).startOf("ss").fromNow()}
                   </Text>
                 </div>
               </a>

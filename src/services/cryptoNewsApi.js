@@ -1,22 +1,24 @@
-import {createApi,fetchBaseQuery} from '@reduxjs/toolkit/query/react';
- 
-const cryptoNewsHeader={
-    'X-BingApis-SDK': 'true',
-    'X-RapidAPI-Key': '39b48fd2demshe5b3441d3e8170dp17328ejsn434ac11a856c',
-    'X-RapidAPI-Host': 'bing-news-search1.p.rapidapi.com'
-}
-const baseUrl='https://bing-news-search1.p.rapidapi.com';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const createRequest=(url)=>({url,headers:cryptoNewsHeader});
-export const cryptoNewsApi=createApi({
-    reducerPath:'cryptoNewsApi',
-    baseQuery:fetchBaseQuery({baseUrl}),
-    endpoints:(builder)=>({
-        getCryptoNews:builder.query({
-            query:({newsCategory,count})=>createRequest(`/news/search?q=${newsCategory}&safeSearch=off&textFormat=Raw&freshness=Day&count=${count}`),
-        })
-    })
+// https://newsapi.org/v2/everything?q=tesla&from=2023-01-18&sortBy=publishedAt&apiKey=a730d5245cc247d39526f3dd4cb0e7c4
+
+const cryptoNewsHeader = {
+  "X-Api-Key": "a730d5245cc247d39526f3dd4cb0e7c4",
+};
+const baseUrl = "https://newsapi.org";
+
+const createRequest = (url) => ({ url,headers:cryptoNewsHeader});
+
+export const cryptoNewsApi = createApi({
+  reducerPath: "cryptoNewsApi",
+  baseQuery: fetchBaseQuery({ baseUrl }),
+  endpoints: (builder) => ({
+    getCryptoNews: builder.query({
+      query: ({ newsCategory, pageSize }) =>
+        createRequest(
+          `/v2/everything?q=${newsCategory}&sortBy=publishedAt&pageSize=${pageSize}`
+        ),
+    }),
+  }),
 });
-export const {
-    useGetCryptoNewsQuery,
-}=cryptoNewsApi;
+export const { useGetCryptoNewsQuery } = cryptoNewsApi;
