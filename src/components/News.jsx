@@ -10,13 +10,13 @@ import Loader from "./Loader";
 const { Text, Title } = Typography;
 const { Option } = Select;
 const News = ({ simplified }) => {
+  console.log(simplified+" hii from news");
   const [newsCategory, setNewsCategory] = useState("Cryptocurrency");
   const { data: cryptoNews } = useGetCryptoNewsQuery({
     newsCategory,
     pageSize: simplified ? 10 : 30,
   });
   const { data } = useGetCryptosQuery(100);
-  console.log(cryptoNews);
   if (!cryptoNews) return <Loader />;
 
   const demoImage = "https://img.freepik.com/free-photo/stock-market-chart-virtual-screen-with-woman-s-hand-digital-remix_53876-124663.jpg?w=1060&t=st=1663143751~exp=1663144351~hmac=f3c6bd2464f4998e3e17e3a058d3721d45e5a3cfd9f22c0ed448218f184fd516";
@@ -36,15 +36,15 @@ const News = ({ simplified }) => {
               }
             >
               <Option value="Cryptocurrency">Cryptocurrency</Option>
-              {data?.data?.coins.map((coin) => (
-                <Option value={coin.name}>{coin.name}</Option>
+              {data?.data?.coins.map((coin,i) => (
+                <Option value={coin.name} key={i}>{coin.name}</Option>
               ))}
             </Select>
           </Col>
         )}
 
-        {cryptoNews?.value.map((news, i) => (
-          <Col xs={24} sm={12} lg={8} key={i}>
+        {cryptoNews?.value.map((news) => (
+          <Col xs={24} sm={12} lg={8} key={news.id}>
             <Card hoverable className="news-card">
               <a href={news.url} target="_blank" rel="noreferrer">
                 <div className="news-image-container">
@@ -66,7 +66,7 @@ const News = ({ simplified }) => {
                   <div>
                     <Avatar
                       src={
-                        news.image.thumbnail ||
+                        news.provider.favIcon ||
                         demoImage
                       }
                       alt="image"

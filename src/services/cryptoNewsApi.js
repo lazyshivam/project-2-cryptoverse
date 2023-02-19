@@ -16,7 +16,7 @@ export const cryptoNewsApi = createApi({
     getCryptoNews: builder.query({
       query: ({ newsCategory, pageSize }) =>
         createRequest(
-          `/api/search/NewsSearchAPI?q=${newsCategory}&apageSize=${pageSize}`
+          `/api/search/NewsSearchAPI?q=${newsCategory}&pageSize=${pageSize}&pageNumber=1`
         ),
     }),
   }),

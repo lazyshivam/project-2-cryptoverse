@@ -42,7 +42,7 @@ const App = () => {
               />
                  
 
-              <Route exact path="/news" element={<News />} />
+              <Route exact path="/news" element={<News simplified={false}/>} />
             </Routes>
           </div>
         </Layout>
