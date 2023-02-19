@@ -16,8 +16,7 @@ const News = ({ simplified }) => {
     pageSize: simplified ? 10 : 30,
   });
   const { data } = useGetCryptosQuery(100);
-  console.log(data?.data?.coins);
-  console.log(cryptoNews?.articles);
+  console.log(cryptoNews);
   if (!cryptoNews) return <Loader />;
 
   const demoImage = "https://img.freepik.com/free-photo/stock-market-chart-virtual-screen-with-woman-s-hand-digital-remix_53876-124663.jpg?w=1060&t=st=1663143751~exp=1663144351~hmac=f3c6bd2464f4998e3e17e3a058d3721d45e5a3cfd9f22c0ed448218f184fd516";
@@ -44,7 +43,7 @@ const News = ({ simplified }) => {
           </Col>
         )}
 
-        {cryptoNews?.articles.map((news, i) => (
+        {cryptoNews?.value.map((news, i) => (
           <Col xs={24} sm={12} lg={8} key={i}>
             <Card hoverable className="news-card">
               <a href={news.url} target="_blank" rel="noreferrer">
@@ -53,7 +52,7 @@ const News = ({ simplified }) => {
                     {news.title}
                   </Title>
                   <img
-                    src={news.urlToImage || demoImage}
+                    src={news.image.url || demoImage}
                     alt="News"
                     style={{ maxWidth: "150px", maxHeight: "120px", borderRadius: "10px" }}
                   />
@@ -67,17 +66,17 @@ const News = ({ simplified }) => {
                   <div>
                     <Avatar
                       src={
-                        // news.provider[0]?.image?.thumbnail?.contentUrl ||
+                        news.image.thumbnail ||
                         demoImage
                       }
                       alt="image"
                     />
                     <Text className="provider-name">
-                      {news.source.name}
+                      {news.provider.name}
                     </Text>
                   </div>
                   <Text>
-                    {moment(news.publishedAt
+                    {moment(news.datePublished
                     ).startOf("ss").fromNow()}
                   </Text>
                 </div>
