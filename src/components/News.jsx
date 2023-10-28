@@ -14,8 +14,9 @@ const News = ({ simplified }) => {
   const [newsCategory, setNewsCategory] = useState("Cryptocurrency");
   const { data: cryptoNews } = useGetCryptoNewsQuery({
     newsCategory,
-    pageSize: simplified ? 10 : 30,
+    count: simplified ? 10 : 30,
   });
+  console.log(cryptoNews);
   const { data } = useGetCryptosQuery(100);
   if (!cryptoNews) return <Loader />;
 
@@ -43,16 +44,16 @@ const News = ({ simplified }) => {
           </Col>
         )}
 
-        {cryptoNews?.value.map((news) => (
-          <Col xs={24} sm={12} lg={8} key={news.id}>
+        {cryptoNews?.value.map((news,i) => (
+          <Col xs={24} sm={12} lg={8} key={i}>
             <Card hoverable className="news-card">
               <a href={news.url} target="_blank" rel="noreferrer">
                 <div className="news-image-container">
                   <Title className="news-title" level={4}>
-                    {news.title}
+                    {news.name}
                   </Title>
                   <img
-                    src={news.image.url || demoImage}
+                    src={news?.image?.thumbnail?.contentUrl || demoImage}
                     alt="News"
                     style={{ maxWidth: "150px", maxHeight: "120px", borderRadius: "10px" }}
                   />
@@ -66,13 +67,13 @@ const News = ({ simplified }) => {
                   <div>
                     <Avatar
                       src={
-                        news.provider.favIcon ||
+                        news.provider[0]?.image?.thumbnail?.contentUrl ||
                         demoImage
                       }
                       alt="image"
                     />
                     <Text className="provider-name">
-                      {news.provider.name}
+                      {news.provider[0]?.name}
                     </Text>
                   </div>
                   <Text>
